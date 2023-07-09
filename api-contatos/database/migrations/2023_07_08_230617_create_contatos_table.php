@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('valor');
             $table->unsignedBigInteger('tipo_id');
+            $table->unsignedBigInteger('pessoa_id');
             $table->timestamps();
+
+            $table->foreign('pessoa_id')->references('id')->on('pessoas');
         });
     }
 

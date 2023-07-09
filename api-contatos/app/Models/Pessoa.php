@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Pessoa extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'nome',
+    ];
+
+    public function contacts() 
+    {
+        return $this->hasMany(Contato::class);
+    }
 }
