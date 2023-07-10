@@ -31,9 +31,8 @@ class PessoaRequest extends FormRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
             'message'   => 'Ocorreram erros de validação',
             'data'      => $validator->errors()
-        ]));
+        ])->setStatusCode(400));
     }
 }

@@ -11,76 +11,90 @@ class ContatoController extends Controller
     
     public function getAll() 
     {
-        $personList = Contato::with('pessoa')->paginate(5);
-        return response($personList);
+        $contactList = Contato::with('pessoa')->paginate(5);
+        return response($contactList);
     }
 
     public function getOne(Request $request)
     {
         try {
-            $person = Contato::with('pessoa')->findOrFail($request->id); 
+            $contact = Contato::with('pessoa')->findOrFail($request->id); 
             return response([
-                'data' => $person,
+                'data' => $contact,
                 'message' => 'Dados retornados com sucesso!'
             ]);
         } catch (\Exception $e) {
             return response([
                 'message' => 'Contato não encontrado!',
-            ]);
+            ], 400);
         }
     }
 
     public function add(ContatoRequest $request)
     {
-        // TODO: Terminar as actions daqui pra baixo
         try {
-            $person = new Contato();
-            $person->nome = $request->nome;
-            $person->save();
+            $contact = new Contato();
+            $contact->valor     = $request->valor;
+            $contact->tipo_id   = $request->tipo_id;
+            $contact->pessoa_id = $request->pessoa_id;
+            $contact->save();
 
             return response([
-                'data'      => $person,
-                'message'   => 'Contato cadastrada com sucesso!',
-            ]);
+                'data'      => $contact,
+                'message'   => 'Contato cadastrado com sucesso!',
+            ], 201);
         } catch (\Exception $e) {
             return response([
                 'message' => 'Ocorreu um erro ao cadastrar contato!',
-            ]);
+            ], 400);
         }
     }
 
     public function update(ContatoRequest $request)
     {
         try {
-            $person = Contato::findOrFail($request->id);
-            $person->nome = $request->nome;
-            $person->save();
+            $contact = Contato::findOrFail($request->id);
+            
+            if (!empty($request->valor)) {
+                $contact->valor = $request->valor;
+            }
+
+            if (!empty($request->tipo_id)) {
+                $contact->tipo_id = $request->tipo_id;
+            }
+
+            if (!empty($request->pessoa_id)) {
+                $contact->pessoa_id = $request->pessoa_id;
+            }
+            
+            $contact->save();
     
             return response([
-                'data'      => $person,
+                'data'      => $contact,
                 'message'   => 'Contato atualizada com sucesso!',
             ]);
+            
         } catch (\Exception $e) {
             return response([
                 'message' => 'Ocorreu um erro ao atualizar contato!',
-            ]);
+            ], 400);
         }
     }
 
     public function delete(Request $request)
     {
         try {
-            $person = Contato::findOrFail($request->id);
-            $person->delete();
+            $contact = Contato::findOrFail($request->id);
+            $contact->delete();
 
             return response([
-                'data'      => $person,
+                'data'      => $contact,
                 'message'   => 'Contato deletada com sucesso!',
             ]);
         } catch (\Exception $e) {
             return response([
                 'message' => 'Ocorreu um erro ao deletar contato!',
-            ]);
+            ], 400);
         }
     }
 }

@@ -23,27 +23,32 @@ class ContatoRequest extends FormRequest
      */
     public function rules(): array
     {
+        $validation = [
+            'valor'     => ['required', 'string'],
+            'tipo_id'   => ['required', 'integer', 'exists:tipo,id'],
+            'pessoa_id' => ['required', 'integer', 'exists:pessoas,id'],
+        ];
 
-        $valueValidation = 'required|sometimes|string';
-        dd($this->tipo_id);
-
-        if ($this->tipo_id == 3) {
-            $valueValidation .= '|email';
+        switch($this->tipo_id) {
+            case 1: $validation['valor'][] = "regex:/^(?:(?:\(?[1-9][0-9]\)?)?\s?)?(?:((?:9\d|[2-9])\d{3})-?(\d{4}))$/"; break;
+            case 2: $validation['valor'][] = "regex:/^\([1-9]{2}\) [9]{0,1}[6-9]{1}[0-9]{3}\-[0-9]{4}$/"; break;
+            case 3: $validation['valor'][] = "email"; break;
         }
 
-        return [
-            'valor' => $valueValidation,
-            'tipo_id' => 'required|sometimes|integer|exists:tipo,id',
-            'pessoa_id' => 'required|sometimes|integer|exists:pessoas,id',
-        ];
+        if ($this->isMethod('PUT')) {
+            $validation['valor'][]      = 'sometimes';
+            $validation['tipo_id'][]    = 'sometimes';
+            $validation['pessoa_id'][]  = 'sometimes';
+        }
+
+        return $validation;
     }
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
             'message'   => 'Ocorreram erros de validação',
             'data'      => $validator->errors()
-        ]));
+        ])->setStatusCode(400));
     }
 }

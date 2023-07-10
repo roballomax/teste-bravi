@@ -13,8 +13,23 @@ class TipoContatoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::statement("INSERT INTO tipo (id, nome, created_at) VALUES (1, 'Telefone', now())");
-        DB::statement("INSERT INTO tipo (id, nome, created_at) VALUES (2, 'Whatsapp', now())");
-        DB::statement("INSERT INTO tipo (id, nome, created_at) VALUES (3, 'E-mail', now())");
+        DB::table('tipo')->insert([
+            [
+                "id"            => 1,
+                "nome"          => 'Telefone',
+                "created_at"    => date('Y-m-d H:i:s'),
+            ],
+            [
+                "id"            => 2,
+                "nome"          => 'Whatsapp',
+                "created_at"    => date('Y-m-d H:i:s'),
+            ],
+            [
+                "id"            => 3,
+                "nome"          => 'E-mail',
+                "created_at"    => date('Y-m-d H:i:s'),
+            ],
+
+        ]);
     }
 }

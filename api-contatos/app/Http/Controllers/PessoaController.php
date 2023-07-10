@@ -25,7 +25,7 @@ class PessoaController extends Controller
         } catch (\Exception $e) {
             return response([
                 'message' => 'Pessoa não encontrada!',
-            ]);
+            ], 400);
         }
     }
 
@@ -39,11 +39,11 @@ class PessoaController extends Controller
             return response([
                 'data'      => $person,
                 'message'   => 'Pessoa cadastrada com sucesso!',
-            ]);
+            ], 201);
         } catch (\Exception $e) {
             return response([
                 'message' => 'Ocorreu um erro ao cadastrar pessoa!',
-            ]);
+            ], 400);
         }
     }
 
@@ -61,7 +61,7 @@ class PessoaController extends Controller
         } catch (\Exception $e) {
             return response([
                 'message' => 'Ocorreu um erro ao atualizar pessoa!',
-            ]);
+            ], 400);
         }
     }
 
@@ -78,7 +78,7 @@ class PessoaController extends Controller
         } catch (\Exception $e) {
             return response([
                 'message' => 'Ocorreu um erro ao deletar pessoa!',
-            ]);
+            ], 400);
         }
     }
 }
