@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PessoaRequest;
 use App\Models\Pessoa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PessoaController extends Controller
 {
@@ -79,6 +80,7 @@ class PessoaController extends Controller
                 'message'   => 'Pessoa deletada com sucesso!',
             ]);
         } catch (\Exception $e) {
+            Log::alert($e->getMessage());
             return response([
                 'message' => 'Ocorreu um erro ao deletar pessoa!',
             ], 400);

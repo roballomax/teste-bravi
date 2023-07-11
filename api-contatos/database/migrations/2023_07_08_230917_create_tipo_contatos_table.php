@@ -18,7 +18,7 @@ return new class extends Migration
         });
 
         Schema::table('contatos', function (Blueprint $table) {
-            $table->foreign('tipo_id')->references('id')->on('tipo');
+            $table->foreign('tipo_id')->references('id')->on('tipo')->onDelete('cascade');
         });
     }
 
