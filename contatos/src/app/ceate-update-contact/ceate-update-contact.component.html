@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Cadastro de Pessoa</h1>
+<form [formGroup]="contactForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content class="content">
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Valor</mat-label>
+            <input matInput placeholder="telefone, celular ou email" formControlName="valor" mask='{{mask}}' type="{{typeInput}}" [dropSpecialCharacters]="false">
+            <!-- <mat-hint>Nome da pessoa</mat-hint> -->
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+            <mat-label>Tipo Contato</mat-label>
+            <mat-select formControlName="tipo_id" (valueChange)="onchangeType($event)">
+                <mat-option *ngFor="let type of typeContact" value="{{type.id}}">{{type.value}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button mat-dialog-close>Fechar</button>
+        <button mat-raised-button color="primary" type="submit">{{data.tipo_id ? 'Atualizar' : 'Salvar'}}</button>
+    </div>
+</form>

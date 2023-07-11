@@ -16,9 +16,19 @@ export class HttpServiceService {
     return this.http.post(this.uri + url, data);
   }
 
-  get(url: string) 
+  put(url:string, data: any): Observable<any>
+  {
+    return this.http.put(this.uri + url, data);
+  }
+
+  get(url: string): Observable<any> 
   {
     return this.http.get(this.uri + url);
+  }
+
+  delete(url: string): Observable<any> 
+  {
+    return this.http.delete(this.uri + url);
   }
 
 }

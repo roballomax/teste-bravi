@@ -16,14 +16,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {MatTableModule} from '@angular/material/table';
 import { NgFor, NgIf } from '@angular/common';
-
+import { CeateUpdateContactComponent } from './ceate-update-contact/ceate-update-contact.component';
+import {MatSelectModule} from '@angular/material/select';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateUpdatePersonComponent
+    CreateUpdatePersonComponent,
+    CeateUpdateContactComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,9 @@ import { NgFor, NgIf } from '@angular/common';
     MatTableModule,
     NgFor, 
     NgIf,
-
+    MatSelectModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
   providers: [],
   bootstrap: [AppComponent]

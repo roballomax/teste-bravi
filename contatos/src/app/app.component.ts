@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateUpdatePersonComponent } from './create-update-person/create-update-person.component';
 import { HttpServiceService } from './services/http-service.service';
-
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import { CeateUpdateContactComponent } from './ceate-update-contact/ceate-update-contact.component';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +28,12 @@ export class AppComponent implements OnInit{
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: Person | null;
 
-  constructor(private _dialog: MatDialog, private httpService: HttpServiceService) {
+  contactColumns = ['id', 'valor', 'tipo'];
+
+  constructor(
+    private _dialog: MatDialog, 
+    private httpService: HttpServiceService,
+  ) {
     this.expandedElement = null;
   }
 
@@ -38,7 +43,17 @@ export class AppComponent implements OnInit{
 
   openAddEditPerson() 
   {
-    this._dialog.open(CreateUpdatePersonComponent);
+    const dialog = this._dialog.open(CreateUpdatePersonComponent);
+    dialog.afterClosed().subscribe({
+      next: (e) => {
+        if (e) {
+          this.getPersonList();
+        }
+      },
+      error: (err) => {
+        console.log(err.message);
+      }
+    });
   }
 
   getPersonList()
@@ -52,6 +67,87 @@ export class AppComponent implements OnInit{
       }
     });
   }
+
+  deletePerson(personId: number)
+  {
+    this.httpService.delete(`pessoa/${personId}`).subscribe({
+      next: (res: any) => {
+        alert(res.message);
+        this.getPersonList();
+      },
+      error: (err) => {
+        alert(err.message);
+      }
+    });
+  }
+
+  openEditPerson(data: any) 
+  {
+    const dialog = this._dialog.open(CreateUpdatePersonComponent, {
+      data
+    });
+    dialog.afterClosed().subscribe({
+      next: (e) => {
+        if (e) {
+          this.getPersonList();
+        }
+      },
+      error: (err) => {
+        console.log(err.message);
+      }
+    });
+  }
+
+  openAddEditContact(personId: any) 
+  {
+    const dialog = this._dialog.open(CeateUpdateContactComponent, {
+      data: {
+        'pessoa_id': personId
+      }
+    });
+    dialog.afterClosed().subscribe({
+      next: (e) => {
+        if (e) {
+          this.getPersonList();
+        }
+      },
+      error: (err) => {
+        console.log(err.message);
+      }
+    });
+  }
+
+  openEditContact(data: any) 
+  {
+    const dialog = this._dialog.open(CeateUpdateContactComponent, {
+      data
+    });
+    dialog.afterClosed().subscribe({
+      next: (e) => {
+        if (e) {
+          this.getPersonList();
+        }
+      },
+      error: (err) => {
+        console.log(err.message);
+      }
+    });
+  }
+
+  deleteContact(id: number)
+  {
+    this.httpService.delete(`contato/${id}`).subscribe({
+      next: (res: any) => {
+        alert(res.message);
+        this.getPersonList();
+      },
+      error: (err) => {
+        console.log(err);
+        alert(err.message);
+      }
+    });
+  }
+
 }
 
 export interface Person {
