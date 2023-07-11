@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Cadastro de Pessoa</h1>
+<form [formGroup]="personForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content class="content">
+        <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Nome da pessoa" formControlName="nome">
+            <!-- <mat-hint>Nome da pessoa</mat-hint> -->
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button mat-dialog-close>Fechar</button>
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+    </div>
+</form>

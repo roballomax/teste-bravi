@@ -10,8 +10,11 @@ class PessoaController extends Controller
 {
     public function getAll() 
     {
-        $personList = Pessoa::with('contacts')->paginate(5);
-        return response($personList);
+        $personList = Pessoa::with('contacts')->get();
+        return response([
+            'data' => $personList,
+            'message' => 'Dados retornados com sucesso!'
+        ]);
     }
 
     public function getOne(Request $request)

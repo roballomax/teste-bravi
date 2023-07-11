@@ -11,8 +11,11 @@ class ContatoController extends Controller
     
     public function getAll() 
     {
-        $contactList = Contato::with('pessoa')->paginate(5);
-        return response($contactList);
+        $contactList = Contato::with('pessoa')->get();
+        return response([
+            'data' => $contactList,
+            'message' => 'Dados retornados com sucesso!'
+        ]);
     }
 
     public function getOne(Request $request)
